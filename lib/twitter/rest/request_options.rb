@@ -12,7 +12,9 @@ module Twitter
         if request_method == :multipart_post
           create_multipart_options!(options)
         elsif request_method == :json_post
-          create_json_options!
+          create_json_options_post!
+        elsif request_method == :json_put
+          create_json_options_put!
         else
           create_standard_options!(request_method, options)
         end
@@ -38,9 +40,15 @@ module Twitter
         @headers = Twitter::Headers.new(@client, @request_method, @uri).request_headers
       end
 
-      def create_json_options!
+      def create_json_options_post!
         @options_key = :json
         @request_method = :post
+        @headers = Twitter::Headers.new(@client, @request_method, @uri).request_headers
+      end
+
+      def create_json_options_put!
+        @options_key = :json
+        @request_method = :put
         @headers = Twitter::Headers.new(@client, @request_method, @uri).request_headers
       end
 
